@@ -1,4 +1,4 @@
 FROM openjdk:11
 EXPOSE 8080
-ADD target/calculator_app.jar calculator_app.jar
-ENTRYPOINT ["java", "-jar", "/calculator_app.jar"]
+ADD target/CalculatorApp-1.0-SNAPSHOT.jar CalculatorApp-1.0-SNAPSHOT.jar
+ENTRYPOINT ["java", "-jar", "/CalculatorApp-1.0-SNAPSHOT.jar"]

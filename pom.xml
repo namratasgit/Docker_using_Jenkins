@@ -4,16 +4,16 @@
   <modelVersion>4.0.0</modelVersion>
   
   <groupId>com.calculator</groupId>
-  <artifactId>CalculatorWebApp</artifactId>
+  <artifactId>CalculatorApp</artifactId>
   <version>1.0-SNAPSHOT</version>
-  <packaging>war</packaging>
+  <packaging>jar</packaging> <!-- Change this to JAR -->
   
   <properties>
     <maven.compiler.source>11</maven.compiler.source>
     <maven.compiler.target>11</maven.compiler.target>
   </properties>
 
-  <dependencies>
+    <dependencies>
     <!-- Servlet API -->
     <dependency>
       <groupId>javax.servlet</groupId>
@@ -22,6 +22,7 @@
       <scope>provided</scope>
     </dependency>
   </dependencies>
+
 
   <build>
     <plugins>
@@ -34,15 +35,7 @@
           <target>11</target>
         </configuration>
       </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-war-plugin</artifactId>
-        <version>3.2.3</version>
-        <configuration>
-          <warSourceDirectory>src/main/webapp</warSourceDirectory>
-        </configuration>
-      </plugin>
     </plugins>
-    <finalName>calculator_app</finalName>
   </build>
 </project>
+
