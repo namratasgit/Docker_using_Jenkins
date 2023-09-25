@@ -251,115 +251,126 @@ sub   rsa3072 2023-09-15 [E] [expires: 2025-09-14]
 •	pass init 5074F1A18A5F83D265A6859C2060F75D9468D9DC
 
 7.	Now go to vscode and add dockerfile directly inside calculator_app directory
-FROM openjdk:11
-EXPOSE 8080
-ADD target/CalculatorApp-1.0-SNAPSHOT.jar CalculatorApp-1.0-SNAPSHOT.jar
-ENTRYPOINT ["java", "-jar", "/CalculatorApp-1.0-SNAPSHOT.jar"]
+         
+         FROM openjdk:11
+         EXPOSE 8080
+         ADD target/CalculatorApp-1.0-SNAPSHOT.jar CalculatorApp-1.0-SNAPSHOT.jar
+         ENTRYPOINT ["java", "-jar", "/CalculatorApp-1.0-SNAPSHOT.jar"]
+  	
 8.	Edit pom.xml file with  <finalName> CalculatorApp-1.0-SNAPSHOT</finalName>  add it after <plugins>,</plugins>
-9.	Run mvn clean install, git commit and push updated repo.
-10.	Start Docker Desktop
-11.	Go to Jenkins and make necessary updations in pipeline now-
-pipeline {
-    agent any
-    tools {
-        maven '3.6.3'
-    }
-    stages {
-        stage("Build Maven") {
-            steps {
-                script {
-                    // Specify the path to your POM file
-                    def pomPath = '/home/namrata/.jenkins/workspace/docker_using_jenkins/calculator_app/pom.xml'
 
-                    // Checkout your source code from your repository
-                    checkout scmGit(
-                        branches: [[name: '*/master']],
-                        extensions: [],
-                        userRemoteConfigs: [[credentialsId: 'git1', url: 'https://github.com/namratasgit/Docker_using_Jenkins.git']]
-                    )
-
-                    // Build your project using Maven with the specified POM path
-                    sh "mvn clean install -f ${pomPath}"
+11.	Run mvn clean install, git commit and push updated repo.
+	
+12.	Start Docker Desktop
+    
+13.	Go to Jenkins and make necessary updations in pipeline now-
+    
+            pipeline {
+                agent any
+                tools {
+                    maven '3.6.3'
                 }
-            }
-        }
-        stage("Build Docker Image") {
-            steps {
-                script {
-                    // Navigate to the directory containing the Dockerfile
-                    dir('/home/namrata/Desktop/calculator_app') {
-                        // Build the Docker image
-                        sh 'docker build -t calculator_app_image .'
+                stages {
+                    stage("Build Maven") {
+                        steps {
+                            script {
+                                // Specify the path to your POM file
+                                def pomPath = '/home/namrata/.jenkins/workspace/docker_using_jenkins/calculator_app/pom.xml'
+            
+                                // Checkout your source code from your repository
+                                checkout scmGit(
+                                    branches: [[name: '*/master']],
+                                    extensions: [],
+                                    userRemoteConfigs: [[credentialsId: 'git1', url: 'https://github.com/namratasgit/Docker_using_Jenkins.git']]
+                                )
+            
+                                // Build your project using Maven with the specified POM path
+                                sh "mvn clean install -f ${pomPath}"
+                            }
+                        }
+                    }
+                    stage("Build Docker Image") {
+                        steps {
+                            script {
+                                // Navigate to the directory containing the Dockerfile
+                                dir('/home/namrata/Desktop/calculator_app') {
+                                    // Build the Docker image
+                                    sh 'docker build -t calculator_app_image .'
+                                }
+                            }
+                        }
                     }
                 }
             }
-        }
-    }
-}
 
-12.	Grant permission to Jenkin to access Dockerfile-
+14.	Grant permission to Jenkin to access Dockerfile-
+
 sudo chmod +r /home/namrata/Desktop/calculator_app/Dockerfile
 sudo chown -R namrata:namrata /home/namrata/Desktop/calculator_app
-13.	Build 
+
+15.	Build 
 
 //Push Docker Image into Dockerhub
-14.	Login to Dockerhub account and edit the pipeline
-[got to pipeline sysntax—select “with credentials-…’’ 
+16.	Login to Dockerhub account and edit the pipeline
+[get to pipeline sysntax—select “with credentials-…’’ 
 In bindings add secret text – variable(dockerhubpwd) and add credentials
 In add credentials--- kind(secret text), secret –Namrata@123 and add id -secret
 And generate pipeline
-pipeline {
-    agent any
-    tools {
-        maven '3.6.3'
-    }
-    stages {
-        stage("Build Maven") {
-            steps {
-                script {
-                    // Specify the path to your POM file
-                    def pomPath = '/home/namrata/.jenkins/workspace/docker_using_jenkins/calculator_app/pom.xml'
 
-                    // Checkout your source code from your repository
-                    checkout scmGit(
-                        branches: [[name: '*/master']],
-                        extensions: [],
-                        userRemoteConfigs: [[credentialsId: 'git1', url: 'https://github.com/namratasgit/Docker_using_Jenkins.git']]
-                    )
-
-                    // Build your project using Maven with the specified POM path
-                    sh "mvn clean install -f ${pomPath}"
+            pipeline {
+                agent any
+                tools {
+                    maven '3.6.3'
                 }
-            }
-        }
-        stage("Build Docker Image") {
-            steps {
-                script {
-                    // Navigate to the directory containing the Dockerfile
-                    dir('/home/namrata/Desktop/calculator_app') {
-                        // Build the Docker image
-                        sh 'docker build -t calculator_app_image .'
+                stages {
+                    stage("Build Maven") {
+                        steps {
+                            script {
+                                // Specify the path to your POM file
+                                def pomPath = '/home/namrata/.jenkins/workspace/docker_using_jenkins/calculator_app/pom.xml'
+            
+                                // Checkout your source code from your repository
+                                checkout scmGit(
+                                    branches: [[name: '*/master']],
+                                    extensions: [],
+                                    userRemoteConfigs: [[credentialsId: 'git1', url: 'https://github.com/namratasgit/Docker_using_Jenkins.git']]
+                                )
+            
+                                // Build your project using Maven with the specified POM path
+                                sh "mvn clean install -f ${pomPath}"
+                            }
+                        }
                     }
-                }
-            }
-        }
-        stage("Push image to hub") {
-            steps {
-                script {
-                    withCredentials([string(credentialsId: 'secret', variable: 'dockerhubpwd')]) {
-                        sh "docker login -u namratasdocker -p ${dockerhubpwd}"
-                        sh "docker tag image_id namratasdocker/docker_using_jenkins_pipeline:latest"
-
- sh "docker push namratasdocker/docker_using_jenkins_pipeline"
+                    stage("Build Docker Image") {
+                        steps {
+                            script {
+                                // Navigate to the directory containing the Dockerfile
+                                dir('/home/namrata/Desktop/calculator_app') {
+                                    // Build the Docker image
+                                    sh 'docker build -t calculator_app_image .'
+                                }
+                            }
+                        }
                     }
+                    stage("Push image to hub") {
+                        steps {
+                            script {
+                                withCredentials([string(credentialsId: 'secret', variable: 'dockerhubpwd')]) {
+                                    sh "docker login -u namratasdocker -p ${dockerhubpwd}"
+                                    sh "docker tag image_id namratasdocker/docker_using_jenkins_pipeline:latest"
+            
+             sh "docker push namratasdocker/docker_using_jenkins_pipeline"
+                                }
+                            }
+                        }
+                    }
+                    
                 }
             }
-        }
-        
-    }
-}
-15.	Build
-16.	We can even create a Jenkins file in our project repo and copy paste the entire groovy script there. We then clean install, commit and push to git. In Jenkins configure, we need to select pipeline from scm and provide git credentials.
+            
+17.	Build
+    
+18.	We can even create a Jenkins file in our project repo and copy paste the entire groovy script there. We then clean install, commit and push to git. In Jenkins configure, we need to select pipeline from scm and provide git credentials.
 
 
 
