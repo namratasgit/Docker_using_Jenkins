@@ -167,6 +167,7 @@ Step 6: Create the pom.xml File
   </build>
 </project>
 
+
 Step 7: Build and Run Your Web App
 
     Open a terminal in VSCode and navigate to your project directory:
