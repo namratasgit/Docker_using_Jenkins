@@ -179,13 +179,12 @@ Deploy the generated WAR file (located in the target directory) to a Servlet con
 Access the application by navigating to http://localhost:8080/CalculatorWebApp (assuming your servlet container is running on port 8080).
 
 2.	Create a new pipeline job
-3.	Configure  General  github project(provide repo url), build triggers git hook trigger for scm polling, pipeline follow below steps
+   
+3.	Configure --> General --> github project(provide repo url), build triggers --> git hook trigger for scm polling, pipeline--> follow below steps
+   
 4.	Pipeline
-
-
 Pipeline syntax-
-
-Steps checkout: chexkout from version control
+Steps--> checkout: chexkout from version control
 SCM – Git, Repo URL- …., Branches to build --> */master
 Generate the pipeline and copy paste in the script
 
@@ -217,47 +216,65 @@ Generate the pipeline and copy paste in the script
                }
 
 5.	Build
-// Build Docker Image
-
+   
+	// Build Docker Image
 6.	Download and install Docker
 https://docs.docker.com/desktop/install/ubuntu/
-4.	Download DEB package
-5.	Set up Docker's package repository[using Apt repository].[visit link] https://docs.docker.com/engine/install/ubuntu/#install-using-the-repository
+
+7.	Download DEB package
+   
+8.	Set up Docker's package repository[using Apt repository].[visit link] https://docs.docker.com/engine/install/ubuntu/#install-using-the-repository
+   
 •	sudo apt-get update
+
 •	sudo apt-get install ca-certificates curl gnupg
+
 •	sudo install -m 0755 -d /etc/apt/keyrings
+
 •	curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+
 •	sudo chmod a+r /etc/apt/keyrings/docker.gpg
+
 •	echo \
   "deb [arch="$(dpkg --print-architecture)" signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
   "$(. /etc/os-release && echo "$VERSION_CODENAME")" stable" | \sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+  
 •	sudo apt-get update
+
 •	sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin [install docker packages]
-•	[install and launch docker desktop]
-sudo apt-get install ./docker-desktop-4.23.0-amd64.deb
+
+•	sudo apt-get install ./docker-desktop-4.23.0-amd64.deb [install and launch docker desktop]
+
 •	systemctl --user start docker-desktop
+
 •	gpg --generate-key
+
 passphrase –dockerkey123
+
 pg: /home/namrata/.gnupg/trustdb.gpg: trustdb created
+
 gpg: key 2060F75D9468D9DC marked as ultimately trusted
+
 gpg: directory '/home/namrata/.gnupg/openpgp-revocs.d' created
+
 gpg: revocation certificate stored as '/home/namrata/.gnupg/openpgp-revocs.d/5074F1A18A5F83D265A6859C2060F75D9468D9DC.rev'
 public and secret key created and signed.
 
 pub   rsa3072 2023-09-15 [SC] [expires: 2025-09-14]
       5074F1A18A5F83D265A6859C2060F75D9468D9DC
 uid                      Namrata <dasnamrata795@gmail.com>
+
 sub   rsa3072 2023-09-15 [E] [expires: 2025-09-14]
 •	pass init 5074F1A18A5F83D265A6859C2060F75D9468D9DC
 
-7.	Now go to vscode and add dockerfile directly inside calculator_app directory
+9.	Now go to vscode and add dockerfile directly inside calculator_app directory
          
          FROM openjdk:11
          EXPOSE 8080
          ADD target/CalculatorApp-1.0-SNAPSHOT.jar CalculatorApp-1.0-SNAPSHOT.jar
          ENTRYPOINT ["java", "-jar", "/CalculatorApp-1.0-SNAPSHOT.jar"]
   	
-8.	Edit pom.xml file with  <finalName> CalculatorApp-1.0-SNAPSHOT</finalName>  add it after <plugins>,</plugins>
+10.	Edit pom.xml file with  <finalName> CalculatorApp-1.0-SNAPSHOT</finalName>  add it after <plugins>,</plugins>
 
 11.	Run mvn clean install, git commit and push updated repo.
 	
@@ -368,9 +385,9 @@ And generate pipeline
                 }
             }
             
-17.	Build
+16.	Build
     
-18.	We can even create a Jenkins file in our project repo and copy paste the entire groovy script there. We then clean install, commit and push to git. In Jenkins configure, we need to select pipeline from scm and provide git credentials.
+17.	We can even create a Jenkins file in our project repo and copy paste the entire groovy script there. We then clean install, commit and push to git. In Jenkins configure, we need to select pipeline from scm and provide git credentials.
 
 
 
