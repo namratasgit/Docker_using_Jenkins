@@ -126,46 +126,43 @@ Step 5: Configure Web Deployment Descriptor (web.xml)
 
 
 
-Step 6: Create the pom.xml File
-
-    In the root directory of your project, create a pom.xml file if it doesn't already exist.
-
-    Add the following content to your pom.xml file to specify your project's dependencies and plugins:
+Step 6: Create the pom.xml File --->In the root directory of your project, create a pom.xml file if it doesn't already exist.
+   Add the following content to your pom.xml file to specify your project's dependencies and plugins:
 
 
-<?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  
-  <groupId>com.calculator</groupId>
-  <artifactId>CalculatorApp</artifactId>
-  <version>1.0-SNAPSHOT</version>
-  <packaging>jar</packaging> <!-- Change this to JAR -->
-  
-  <properties>
-    <maven.compiler.source>11</maven.compiler.source>
-    <maven.compiler.target>11</maven.compiler.target>
-  </properties>
-
-  <dependencies>
-    <!-- Your dependencies here -->
-  </dependencies>
-
-  <build>
-    <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.8.1</version>
-        <configuration>
-          <source>11</source>
-          <target>11</target>
-        </configuration>
-      </plugin>
-    </plugins>
-  </build>
-</project>
+         <?xml version="1.0" encoding="UTF-8"?>
+         <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+           <modelVersion>4.0.0</modelVersion>
+           
+           <groupId>com.calculator</groupId>
+           <artifactId>CalculatorApp</artifactId>
+           <version>1.0-SNAPSHOT</version>
+           <packaging>jar</packaging> <!-- Change this to JAR -->
+           
+           <properties>
+             <maven.compiler.source>11</maven.compiler.source>
+             <maven.compiler.target>11</maven.compiler.target>
+           </properties>
+         
+           <dependencies>
+             <!-- Your dependencies here -->
+           </dependencies>
+         
+           <build>
+             <plugins>
+               <plugin>
+                 <groupId>org.apache.maven.plugins</groupId>
+                 <artifactId>maven-compiler-plugin</artifactId>
+                 <version>3.8.1</version>
+                 <configuration>
+                   <source>11</source>
+                   <target>11</target>
+                 </configuration>
+               </plugin>
+             </plugins>
+           </build>
+         </project>
 
 
 Step 7: Build and Run Your Web App
@@ -187,36 +184,37 @@ Access the application by navigating to http://localhost:8080/CalculatorWebApp (
 
 
 Pipeline syntax-
+
 Steps checkout: chexkout from version control
-	SCM – Git, Repo URL- …., Branches to build  */master
-	Generate the pipeline and copy paste in the script
+SCM – Git, Repo URL- …., Branches to build --> */master
+Generate the pipeline and copy paste in the script
 
-pipeline {
-    agent any
-    tools {
-        maven '3.6.3'
-    }
-    stages {
-        stage("Build Maven") {
-            steps {
-                script {
-                    // Specify the path to your POM file
-                    def pomPath = '/home/namrata/.jenkins/workspace/docker_using_jenkins/calculator_app/pom.xml'
-
-                    // Checkout your source code from your repository
-                    checkout scmGit(
-                        branches: [[name: '*/main']],
-                        extensions: [],
-                        userRemoteConfigs: [[credentialsId: 'git1', url: 'https://github.com/namratasgit/Docker_using_Jenkins.git']]
-                    )
-
-                    // Build your project using Maven with the specified POM path
-                    sh "mvn clean install -f ${pomPath}"
-                }
-            }
-        }
-    }
-}
+               pipeline {
+                   agent any
+                   tools {
+                       maven '3.6.3'
+                   }
+                   stages {
+                       stage("Build Maven") {
+                           steps {
+                               script {
+                                   // Specify the path to your POM file
+                                   def pomPath = '/home/namrata/.jenkins/workspace/docker_using_jenkins/calculator_app/pom.xml'
+               
+                                   // Checkout your source code from your repository
+                                   checkout scmGit(
+                                       branches: [[name: '*/main']],
+                                       extensions: [],
+                                       userRemoteConfigs: [[credentialsId: 'git1', url: 'https://github.com/namratasgit/Docker_using_Jenkins.git']]
+                                   )
+               
+                                   // Build your project using Maven with the specified POM path
+                                   sh "mvn clean install -f ${pomPath}"
+                               }
+                           }
+                       }
+                   }
+               }
 
 5.	Build
 // Build Docker Image
